@@ -1,0 +1,44 @@
+swagger: "2.0"
+info:
+  title: OCR API
+  description: API for extracting text from images using multiple OCR engines.
+  version: "1.0"
+paths:
+  /api/upload_image:
+    post:
+      summary: Upload image and extract text
+      description: Upload an image and extract text using EasyOCR, PaddleOCR, Tesseract, and PyOCR.
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: image
+          in: formData
+          type: file
+          required: true
+          description: The image to process.
+      responses:
+        200:
+          description: Extracted text from the image using multiple OCR engines.
+          schema:
+            type: object
+            properties:
+              easyocr:
+                type: array
+                items:
+                  type: string
+                description: Text extracted using EasyOCR.
+              paddleocr:
+                type: array
+                items:
+                  type: string
+                description: Text extracted using PaddleOCR.
+              tesseract:
+                type: string
+                description: Text extracted using Tesseract OCR.
+              pyocr:
+                type: string
+                description: Text extracted using PyOCR.
+        400:
+          description: Error in uploading or processing the image.
+        500:
+          description: Internal server error.
